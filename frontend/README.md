@@ -1,16 +1,117 @@
-# React + Vite
+# Job Recommender System - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A Vite-based React application for intelligent job recommendations with AI-powered role matching and tech stack suggestions.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Guest Mode**: Browse all available job postings without signing up
+- **Authenticated Access**:
+  - Resume-based job role recommendations
+  - Role-based tech stack recommendations
+  - Personalized job listings filtered by your profile
+- **User Profile**: Manage your tech stack and project portfolio
+- **Job Listings**: Search and filter through available positions
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Framework**: React 19 + Vite 7
+- **State Management**: Zustand 5
+- **Styling**: Tailwind CSS 4
+- **Routing**: React Router 7
+- **Forms**: React Hook Form
+- **UI Components**: Headless UI + Heroicons
+- **HTTP Client**: Axios
 
-## Expanding the ESLint configuration
+## Getting Started
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Prerequisites
+
+- Node.js 20.19+ or 22.12+
+- npm or yarn
+
+### Installation
+
+```bash
+# Install dependencies
+npm install
+```
+
+### Development
+
+```bash
+# Start development server
+npm run dev
+```
+
+The application will be available at `http://localhost:5173`
+
+### Build
+
+```bash
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
+```
+
+## Project Structure
+
+```
+src/
+├── components/
+│   ├── common/          # Shared components (Navbar, ProtectedRoute, etc.)
+│   ├── jobs/            # Job-related components
+│   └── ui/              # Reusable UI components
+├── layouts/             # Page layouts
+├── pages/
+│   ├── auth/            # Authentication pages
+│   ├── recommender/     # Recommendation pages
+│   └── ...              # Other pages
+├── services/            # API services and mock data
+├── stores/              # Zustand state stores
+└── utils/               # Utility functions
+```
+
+## Demo Credentials
+
+For testing purposes, use these credentials:
+
+- **Email**: test@example.com
+- **Password**: password
+
+## API Integration
+
+Currently using mock APIs for development. When the backend is ready:
+
+1. Update the `VITE_API_URL` in your `.env` file
+2. Replace mock API calls in `src/services/` with actual API endpoints
+3. Update axios interceptor in `src/services/api.js` as needed
+
+## Available Routes
+
+- `/` - Home page with feature showcase
+- `/jobs` - Browse job listings (public)
+- `/auth/login` - Sign in
+- `/auth/register` - Sign up
+- `/recommend-role` - Get job role recommendations (requires auth)
+- `/recommend-stack` - Get tech stack recommendations (requires auth)
+- `/profile` - User profile management (requires auth)
+
+## Features in Detail
+
+### Resume-Based Role Recommendations
+
+Upload your resume (PDF, DOC, DOCX) to receive AI-powered job role suggestions with confidence scores.
+
+### Tech Stack Recommendations
+
+Enter your desired job role to get a curated list of technologies to learn, prioritized by importance.
+
+### Personalized Job Listings
+
+Authenticated users receive job recommendations filtered by their tech stack and experience level.
+
+## License
+
+MIT
