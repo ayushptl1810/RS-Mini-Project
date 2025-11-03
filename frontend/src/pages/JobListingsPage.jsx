@@ -28,7 +28,8 @@ const JobListingsPage = () => {
     } else {
       fetchJobs(false);
     }
-  }, [isAuthenticated, fetchJobs]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuthenticated]);
 
   useEffect(() => {
     updateFilters({
@@ -36,7 +37,8 @@ const JobListingsPage = () => {
       location: locationQuery,
       remote: remoteOnly,
     });
-  }, [searchQuery, locationQuery, remoteOnly, updateFilters]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchQuery, locationQuery, remoteOnly]);
 
   const displayedJobs =
     isAuthenticated && personalizedJobs.length > 0 ? personalizedJobs : jobs;

@@ -37,31 +37,29 @@ const useUserStore = create((set, get) => ({
   },
 
   updateTechStack: async (techStack) => {
-    set({ isLoading: true, error: null });
+    set({ error: null });
     try {
       await mockUserApi.updateTechStack(techStack);
       set((state) => ({
         profile: { ...state.profile, techStack },
-        isLoading: false,
       }));
       return { success: true };
     } catch (error) {
-      set({ error: error.message, isLoading: false });
+      set({ error: error.message });
       return { success: false, error: error.message };
     }
   },
 
   updateProjects: async (projects) => {
-    set({ isLoading: true, error: null });
+    set({ error: null });
     try {
       await mockUserApi.updateProjects(projects);
       set((state) => ({
         profile: { ...state.profile, projects },
-        isLoading: false,
       }));
       return { success: true };
     } catch (error) {
-      set({ error: error.message, isLoading: false });
+      set({ error: error.message });
       return { success: false, error: error.message };
     }
   },

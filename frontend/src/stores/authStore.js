@@ -9,6 +9,11 @@ const useAuthStore = create(
       token: null,
       isAuthenticated: false,
       isLoading: false,
+      hasHydrated: false,
+
+      setHasHydrated: () => {
+        set({ hasHydrated: true });
+      },
 
       login: async (email, password) => {
         set({ isLoading: true });
@@ -70,6 +75,9 @@ const useAuthStore = create(
     }),
     {
       name: "auth-storage",
+      onRehydrateStorage: () => (state) => {
+        state?.setHasHydrated(true);
+      },
     }
   )
 );
