@@ -5,6 +5,7 @@ const useUserStore = create((set, get) => ({
   profile: {
     name: "",
     email: "",
+    avatar: null,
     resumeData: null,
     techStack: [],
     projects: [],
@@ -64,11 +65,26 @@ const useUserStore = create((set, get) => ({
     }
   },
 
+  updateResume: async (resumeData) => {
+    set({ error: null });
+    try {
+      await mockUserApi.updateResume(resumeData);
+      set((state) => ({
+        profile: { ...state.profile, resumeData },
+      }));
+      return { success: true };
+    } catch (error) {
+      set({ error: error.message });
+      return { success: false, error: error.message };
+    }
+  },
+
   clearProfile: () => {
     set({
       profile: {
         name: "",
         email: "",
+        avatar: null,
         resumeData: null,
         techStack: [],
         projects: [],

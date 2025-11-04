@@ -84,7 +84,7 @@ const RecommendStackPage = () => {
                         key={role}
                         type="button"
                         onClick={() => handleRoleSelect(role)}
-                        className="px-4 py-2 bg-gray-800 text-gray-300 rounded-lg hover:bg-gray-700 hover:text-cyan-400 transition-colors"
+                        className="px-4 py-2 bg-gray-800 text-gray-300 rounded-lg hover:bg-gray-700 hover:text-cyan-400 transition-colors cursor-pointer"
                       >
                         {role}
                       </button>
@@ -95,7 +95,7 @@ const RecommendStackPage = () => {
                 <button
                   type="submit"
                   disabled={!roleInput.trim() || isLoading}
-                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                 >
                   Get Recommendations
                 </button>
@@ -126,7 +126,7 @@ const RecommendStackPage = () => {
                 </h2>
                 <button
                   onClick={handleClearResults}
-                  className="text-cyan-400 hover:text-cyan-300 text-sm font-medium transition-colors"
+                  className="text-cyan-400 hover:text-cyan-300 text-sm font-medium transition-colors cursor-pointer"
                 >
                   Try Another Role
                 </button>
@@ -162,7 +162,7 @@ const RecommendStackPage = () => {
                           href={resource.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="block text-cyan-400 hover:text-cyan-300 hover:underline transition-colors"
+                          className="block text-cyan-400 hover:text-cyan-300 hover:underline transition-colors cursor-pointer"
                         >
                           {resource.title}
                         </a>

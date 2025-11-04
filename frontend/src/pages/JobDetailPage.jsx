@@ -42,7 +42,7 @@ const JobDetailPage = () => {
           <p className="text-gray-400 text-lg mb-4">Job not found</p>
           <Link
             to="/jobs"
-            className="text-cyan-400 hover:text-cyan-300 transition-colors"
+            className="text-cyan-400 hover:text-cyan-300 transition-colors cursor-pointer"
           >
             Back to jobs
           </Link>
@@ -56,7 +56,7 @@ const JobDetailPage = () => {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <Link
           to="/jobs"
-          className="text-cyan-400 hover:text-cyan-300 mb-6 inline-flex items-center transition-colors"
+          className="text-cyan-400 hover:text-cyan-300 mb-6 inline-flex items-center transition-colors cursor-pointer"
         >
           ← Back to jobs
         </Link>
@@ -167,7 +167,7 @@ const JobDetailPage = () => {
           )}
 
           <div className="pt-6 border-t border-gray-900">
-            <button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300">
+            <button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 cursor-pointer">
               Apply Now
             </button>
           </div>

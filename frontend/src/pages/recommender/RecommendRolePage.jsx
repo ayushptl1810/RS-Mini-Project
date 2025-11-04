@@ -1,19 +1,49 @@
 import { useState } from "react";
 import useRecommendationStore from "../../stores/recommendationStore";
+import useUserStore from "../../stores/userStore";
 import FileUploader from "../../components/common/FileUploader";
 import LoadingSpinner from "../../components/common/LoadingSpinner";
+import { uploadDocumentToCloudinary } from "../../services/cloudinaryService";
 
 const RecommendRolePage = () => {
   const { getRoleRecommendations, roleRecommendations, isLoading, error } =
     useRecommendationStore();
+  const { updateResume } = useUserStore();
   const [uploadedFile, setUploadedFile] = useState(null);
+  const [uploadingResume, setUploadingResume] = useState(false);
 
   const handleFileSelect = async (file) => {
     setUploadedFile(file);
+    setUploadingResume(true);
 
-    const result = await getRoleRecommendations(file);
-    if (!result.success) {
-      console.error("Error getting recommendations:", result.error);
+    try {
+      // Upload resume to Cloudinary first
+      const uploadResult = await uploadDocumentToCloudinary(file);
+
+      // Save resume URL to user profile
+      await updateResume({
+        url: uploadResult.url,
+        filename: uploadResult.filename,
+        size: uploadResult.size,
+        type: uploadResult.type,
+        public_id: uploadResult.public_id,
+      });
+
+      // Get recommendations (backend can use Cloudinary URL if needed)
+      const result = await getRoleRecommendations({
+        file,
+        cloudinaryUrl: uploadResult.url,
+        filename: uploadResult.filename,
+      });
+
+      if (!result.success) {
+        console.error("Error getting recommendations:", result.error);
+      }
+    } catch (uploadError) {
+      console.error("Error uploading resume:", uploadError);
+      alert(`Failed to upload resume: ${uploadError.message}`);
+    } finally {
+      setUploadingResume(false);
     }
   };
 
@@ -42,10 +72,14 @@ const RecommendRolePage = () => {
             />
           )}
 
-          {uploadedFile && isLoading && (
+          {uploadedFile && (isLoading || uploadingResume) && (
             <div className="text-center py-12">
               <LoadingSpinner size="lg" />
-              <p className="mt-4 text-gray-400">Analyzing your resume...</p>
+              <p className="mt-4 text-gray-400">
+                {uploadingResume
+                  ? "Uploading your resume..."
+                  : "Analyzing your resume..."}
+              </p>
             </div>
           )}
 
@@ -63,7 +97,7 @@ const RecommendRolePage = () => {
                 </h2>
                 <button
                   onClick={handleClearResults}
-                  className="text-cyan-400 hover:text-cyan-300 text-sm font-medium transition-colors"
+                  className="text-cyan-400 hover:text-cyan-300 text-sm font-medium transition-colors cursor-pointer"
                 >
                   Upload Another Resume
                 </button>

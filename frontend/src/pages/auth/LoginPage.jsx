@@ -43,7 +43,7 @@ const LoginPage = () => {
               Or{" "}
               <Link
                 to="/auth/register"
-                className="font-medium text-cyan-400 hover:text-cyan-300"
+                className="font-medium text-cyan-400 hover:text-cyan-300 cursor-pointer"
               >
                 create a new account
               </Link>
@@ -115,7 +115,7 @@ const LoginPage = () => {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
+                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 cursor-pointer"
               >
                 {isLoading ? <LoadingSpinner size="sm" /> : "Sign in"}
               </button>

@@ -109,7 +109,7 @@ const HomePage = () => {
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
                 <Link
                   to="/jobs"
-                  className="group relative px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl font-semibold text-white hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2"
+                  className="group relative px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl font-semibold text-white hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2 cursor-pointer"
                 >
                   Browse Jobs
                   <ArrowRightIcon className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
@@ -117,7 +117,7 @@ const HomePage = () => {
                 {!isAuthenticated && (
                   <Link
                     to="/auth/register"
-                    className="px-8 py-4 border-2 border-cyan-400 text-cyan-400 rounded-xl font-semibold hover:bg-cyan-400 hover:text-black transition-all duration-300 transform hover:scale-105"
+                    className="px-8 py-4 border-2 border-cyan-400 text-cyan-400 rounded-xl font-semibold hover:bg-cyan-400 hover:text-black transition-all duration-300 transform hover:scale-105 cursor-pointer"
                   >
                     Get Started Free
                   </Link>
@@ -197,7 +197,7 @@ const HomePage = () => {
                 </p>
                 <Link
                   to="/auth/register"
-                  className="inline-block px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105"
+                  className="inline-block px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 cursor-pointer"
                 >
                   Create Free Account
                 </Link>

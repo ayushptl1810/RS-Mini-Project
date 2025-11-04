@@ -63,8 +63,14 @@ const mockAuthApi = {
 };
 
 const mockRecommendationApi = {
-  async getRoleRecommendations(resumeFile) {
+  async getRoleRecommendations(resumeData) {
     await delay(MOCK_DELAY * 2);
+
+    // Handle both file object and new format with cloudinaryUrl
+    const filename = resumeData.filename || resumeData.name;
+    const size = resumeData.size;
+    const type = resumeData.type;
+    const cloudinaryUrl = resumeData.cloudinaryUrl;
 
     return {
       success: true,
@@ -97,9 +103,10 @@ const mockRecommendationApi = {
           },
         ],
         uploadedResume: {
-          filename: resumeFile.name,
-          size: resumeFile.size,
-          type: resumeFile.type,
+          filename,
+          size,
+          type,
+          cloudinaryUrl,
         },
       },
     };
@@ -372,6 +379,7 @@ const mockUserApi = {
       data: {
         name: "Test User",
         email: "test@example.com",
+        avatar: null,
         resumeData: null,
         techStack: ["React", "Python", "Node.js"],
         projects: [
@@ -396,6 +404,30 @@ const mockUserApi = {
     };
   },
 
+  async updateName(name) {
+    await delay(MOCK_DELAY);
+    return {
+      success: true,
+      data: { name },
+    };
+  },
+
+  async updateEmail(email) {
+    await delay(MOCK_DELAY);
+    return {
+      success: true,
+      data: { email },
+    };
+  },
+
+  async updateAvatar(avatarUrl) {
+    await delay(MOCK_DELAY);
+    return {
+      success: true,
+      data: { avatar: avatarUrl },
+    };
+  },
+
   async updateTechStack(techStack) {
     await delay(MOCK_DELAY);
     return {
@@ -409,6 +441,14 @@ const mockUserApi = {
     return {
       success: true,
       data: { projects },
+    };
+  },
+
+  async updateResume(resumeData) {
+    await delay(MOCK_DELAY);
+    return {
+      success: true,
+      data: { resumeData },
     };
   },
 };

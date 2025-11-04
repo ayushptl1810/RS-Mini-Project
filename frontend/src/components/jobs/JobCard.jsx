@@ -13,7 +13,7 @@ const JobCard = ({ job }) => {
         <div className="flex-1">
           <Link
             to={`/jobs/${job.id}`}
-            className="text-xl font-semibold text-white hover:text-cyan-400 transition-colors"
+            className="text-xl font-semibold text-white hover:text-cyan-400 transition-colors cursor-pointer"
           >
             {job.title}
           </Link>
