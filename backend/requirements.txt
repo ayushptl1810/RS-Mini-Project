@@ -1,0 +1,30 @@
+# Required packages for backend preprocessing and data handling
+pandas
+ 
+# Embedding and FAISS index
+sentence-transformers
+faiss-cpu
+
+# Optional / supporting libraries (explicitly listed so pip will install them)
+transformers
+huggingface-hub
+# CPU PyTorch (adjust if you have CUDA):
+torch
+nltk
+spacy
+#Parsing libraries
+fitz
+pdfplumber
+
+
+# Web/API
+fastapi
+uvicorn
+python-multipart
+
+# Evaluation / plotting
+scikit-learn
+matplotlib
+seaborn
+
+

@@ -1,0 +1,302 @@
+[
+  {
+    "skills_text": "Entity Framework",
+    "matches": [
+      {
+        "id": 0,
+        "title": ".NET Developer",
+        "score": 0.4278266429901123
+      },
+      {
+        "id": 173,
+        "title": "UX Apprentice",
+        "score": 0.2756391763687134
+      },
+      {
+        "id": 174,
+        "title": "UX Architect",
+        "score": 0.23035408556461334
+      },
+      {
+        "id": 16,
+        "title": "Associate UX Designer",
+        "score": 0.22972169518470764
+      },
+      {
+        "id": 104,
+        "title": "Lead iOS Engineer",
+        "score": 0.22958385944366455
+      }
+    ]
+  },
+  {
+    "skills_text": "Machine Learning",
+    "matches": [
+      {
+        "id": 49,
+        "title": "Data Scientist",
+        "score": 0.44140759110450745
+      },
+      {
+        "id": 63,
+        "title": "Fresher Data Scientist",
+        "score": 0.40914690494537354
+      },
+      {
+        "id": 45,
+        "title": "Data Analyst / Data Scientist",
+        "score": 0.40573108196258545
+      },
+      {
+        "id": 55,
+        "title": "Entry Level Data Scientist",
+        "score": 0.4016363024711609
+      },
+      {
+        "id": 85,
+        "title": "Junior Machine Learning Engineer",
+        "score": 0.398863822221756
+      }
+    ]
+  },
+  {
+    "skills_text": "Express.js",
+    "matches": [
+      {
+        "id": 183,
+        "title": "Web Developer",
+        "score": 0.3710118532180786
+      },
+      {
+        "id": 79,
+        "title": "JavaScript Developer",
+        "score": 0.35884663462638855
+      },
+      {
+        "id": 65,
+        "title": "Frontend Developer",
+        "score": 0.3061160445213318
+      },
+      {
+        "id": 66,
+        "title": "Full Stack Developer",
+        "score": 0.2586818337440491
+      },
+      {
+        "id": 151,
+        "title": "Software Engineer",
+        "score": 0.20810863375663757
+      }
+    ]
+  },
+  {
+    "skills_text": "SQL",
+    "matches": [
+      {
+        "id": 18,
+        "title": "BI Analyst",
+        "score": 0.3163319528102875
+      },
+      {
+        "id": 83,
+        "title": "Junior Data Scientist",
+        "score": 0.31570762395858765
+      },
+      {
+        "id": 55,
+        "title": "Entry Level Data Scientist",
+        "score": 0.2987178862094879
+      },
+      {
+        "id": 45,
+        "title": "Data Analyst / Data Scientist",
+        "score": 0.2865147292613983
+      },
+      {
+        "id": 108,
+        "title": "Market Research Analyst",
+        "score": 0.28495147824287415
+      }
+    ]
+  },
+  {
+    "skills_text": "Linux",
+    "matches": [
+      {
+        "id": 160,
+        "title": "System Engineer - Monitoring",
+        "score": 0.40147995948791504
+      },
+      {
+        "id": 40,
+        "title": "Cybersecurity",
+        "score": 0.39333847165107727
+      },
+      {
+        "id": 159,
+        "title": "System Engineer - DevOps Integration",
+        "score": 0.348848819732666
+      },
+      {
+        "id": 156,
+        "title": "System Engineer - Automation Specialist",
+        "score": 0.3477834463119507
+      },
+      {
+        "id": 15,
+        "title": "Associate System Engineer",
+        "score": 0.33489757776260376
+      }
+    ]
+  },
+  {
+    "skills_text": "CSS",
+    "matches": [
+      {
+        "id": 169,
+        "title": "Trainee UX Designer",
+        "score": 0.39648979902267456
+      },
+      {
+        "id": 171,
+        "title": "UI Designer",
+        "score": 0.3571102023124695
+      },
+      {
+        "id": 178,
+        "title": "UX Designer",
+        "score": 0.3178790211677551
+      },
+      {
+        "id": 146,
+        "title": "Senior UX Designer",
+        "score": 0.30440181493759155
+      },
+      {
+        "id": 172,
+        "title": "UX",
+        "score": 0.2988106608390808
+      }
+    ]
+  },
+  {
+    "skills_text": "SwiftUI",
+    "matches": [
+      {
+        "id": 70,
+        "title": "Graduate iOS Developer",
+        "score": 0.5851302146911621
+      },
+      {
+        "id": 125,
+        "title": "Principal iOS Developer",
+        "score": 0.5369971990585327
+      },
+      {
+        "id": 189,
+        "title": "iOS Mobile App Engineer",
+        "score": 0.5329554080963135
+      },
+      {
+        "id": 188,
+        "title": "iOS Junior Developer",
+        "score": 0.5303969383239746
+      },
+      {
+        "id": 60,
+        "title": "Entry-level iOS Developer",
+        "score": 0.5300357341766357
+      }
+    ]
+  },
+  {
+    "skills_text": "Kubernetes",
+    "matches": [
+      {
+        "id": 159,
+        "title": "System Engineer - DevOps Integration",
+        "score": 0.5661709904670715
+      },
+      {
+        "id": 33,
+        "title": "Cloud Platform Architect",
+        "score": 0.49589401483535767
+      },
+      {
+        "id": 137,
+        "title": "Senior Cloud Architect",
+        "score": 0.48718345165252686
+      },
+      {
+        "id": 110,
+        "title": "Multi-Cloud Architect",
+        "score": 0.47851070761680603
+      },
+      {
+        "id": 30,
+        "title": "Cloud Infrastructure Security Architect",
+        "score": 0.4611799716949463
+      }
+    ]
+  },
+  {
+    "skills_text": "Linux",
+    "matches": [
+      {
+        "id": 160,
+        "title": "System Engineer - Monitoring",
+        "score": 0.40147995948791504
+      },
+      {
+        "id": 40,
+        "title": "Cybersecurity",
+        "score": 0.39333847165107727
+      },
+      {
+        "id": 159,
+        "title": "System Engineer - DevOps Integration",
+        "score": 0.348848819732666
+      },
+      {
+        "id": 156,
+        "title": "System Engineer - Automation Specialist",
+        "score": 0.3477834463119507
+      },
+      {
+        "id": 15,
+        "title": "Associate System Engineer",
+        "score": 0.33489757776260376
+      }
+    ]
+  },
+  {
+    "skills_text": "REST APIs",
+    "matches": [
+      {
+        "id": 170,
+        "title": "Trainee iOS Developer",
+        "score": 0.4650675058364868
+      },
+      {
+        "id": 81,
+        "title": "Junior Android Engineer",
+        "score": 0.44518232345581055
+      },
+      {
+        "id": 4,
+        "title": "Android App Developer",
+        "score": 0.43807438015937805
+      },
+      {
+        "id": 17,
+        "title": "Associate iOS Engineer",
+        "score": 0.4203665256500244
+      },
+      {
+        "id": 151,
+        "title": "Software Engineer",
+        "score": 0.41576623916625977
+      }
+    ]
+  }
+]

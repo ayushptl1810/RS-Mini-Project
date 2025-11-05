@@ -1,0 +1,57 @@
+{
+  "ks": [
+    5
+  ],
+  "metrics": {
+    "5": {
+      "n_cases": 10,
+      "precision_at_k_mean": 0.0,
+      "recall_at_k_mean": 0.0,
+      "f1_at_k_mean": 0.0,
+      "map_at_k": 0.0,
+      "precision_at_k_std": 0.0,
+      "recall_at_k_std": 0.0,
+      "f1_at_k_std": 0.0,
+      "ap_at_k_std": 0.0,
+      "rmse_all_candidates": 0.3943358017130339,
+      "mae_all_candidates": 0.38342398971319197,
+      "confusion_matrix": null,
+      "per_case_precision": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "per_case_recall": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "per_case_f1": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  }
+}
