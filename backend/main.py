@@ -5,10 +5,14 @@ from pathlib import Path
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-# Ensure backend (this folder) is on sys.path so imports like `routes.recommender` and `models.schemas` work
+# Ensure backend (this folder) and src are on sys.path
 BACKEND_ROOT = Path(__file__).resolve().parent
+SRC_ROOT = BACKEND_ROOT / "src"
+
 if str(BACKEND_ROOT) not in sys.path:
     sys.path.insert(0, str(BACKEND_ROOT))
+if str(SRC_ROOT) not in sys.path:
+    sys.path.insert(0, str(SRC_ROOT))
 
 from routes.recommender import router as recommender_router
 
@@ -34,4 +38,4 @@ def read_root():
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=False)
+    uvicorn.run("main:app", host="0.0.0.0", port=7860, reload=False)

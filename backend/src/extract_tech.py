@@ -134,7 +134,13 @@ def extract_skills_from_text(text: str) -> List[str]:
 def extract_from_pdf(pdf_path: str) -> List[str]:
     # Import parser from same src folder
     try:
-        from src.Parse_resume import parse_document_hybrid
+        import sys
+        from pathlib import Path
+        # Add the src directory to Python path
+        src_dir = Path(__file__).resolve().parent
+        if str(src_dir) not in sys.path:
+            sys.path.insert(0, str(src_dir))
+        from Parse_resume import parse_document_hybrid
     except Exception as e:
         raise RuntimeError(f"Could not import Parse_resume.parse_document_hybrid: {e}")
 
