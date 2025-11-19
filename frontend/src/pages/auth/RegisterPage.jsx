@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import useAuthStore from "../../stores/authStore";
 import LoadingSpinner from "../../components/common/LoadingSpinner";
 
@@ -24,13 +25,30 @@ const RegisterPage = () => {
   const password = watch("password");
 
   const onSubmit = async (data) => {
+    console.log("[RegisterPage] Form submitted:", { name: data.name, email: data.email });
     setError("");
-    const result = await registerUser(data.name, data.email, data.password);
+    
+    try {
+      const result = await registerUser(data.name, data.email, data.password);
+      console.log("[RegisterPage] Registration result:", result);
 
-    if (result.success) {
-      navigate("/profile");
-    } else {
-      setError(result.error || "Registration failed");
+      if (result.success) {
+        console.log("[RegisterPage] Registration successful, navigating to profile");
+        toast.success("Account created successfully! Welcome!");
+        setTimeout(() => {
+          navigate("/profile");
+        }, 1000);
+      } else {
+        console.error("[RegisterPage] Registration failed:", result.error);
+        const errorMsg = result.error || "Registration failed";
+        setError(errorMsg);
+        toast.error(errorMsg);
+      }
+    } catch (error) {
+      console.error("[RegisterPage] Registration exception:", error);
+      const errorMsg = error.message || "An unexpected error occurred";
+      setError(errorMsg);
+      toast.error(errorMsg);
     }
   };
 

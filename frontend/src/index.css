@@ -7,3 +7,31 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+/* Custom Toast Styles */
+.Toastify__toast {
+  background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+  border: 1px solid #374151;
+  border-radius: 0.75rem;
+  color: #f3f4f6;
+}
+
+.Toastify__toast--success {
+  border-left: 4px solid #10b981;
+}
+
+.Toastify__toast--error {
+  border-left: 4px solid #ef4444;
+}
+
+.Toastify__toast--info {
+  border-left: 4px solid #3b82f6;
+}
+
+.Toastify__toast--warning {
+  border-left: 4px solid #f59e0b;
+}
+
+.Toastify__progress-bar {
+  background: linear-gradient(90deg, #06b6d4 0%, #8b5cf6 100%);
+}

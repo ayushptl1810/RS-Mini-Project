@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import useAuthStore from "../../stores/authStore";
 import LoadingSpinner from "../../components/common/LoadingSpinner";
 
@@ -21,13 +22,30 @@ const LoginPage = () => {
   }, [isAuthenticated, navigate]);
 
   const onSubmit = async (data) => {
+    console.log("[LoginPage] Form submitted:", { email: data.email });
     setError("");
-    const result = await login(data.email, data.password);
+    
+    try {
+      const result = await login(data.email, data.password);
+      console.log("[LoginPage] Login result:", result);
 
-    if (result.success) {
-      navigate("/profile");
-    } else {
-      setError(result.error || "Login failed");
+      if (result.success) {
+        console.log("[LoginPage] Login successful, navigating to profile");
+        toast.success("Welcome back!");
+        setTimeout(() => {
+          navigate("/profile");
+        }, 500);
+      } else {
+        console.error("[LoginPage] Login failed:", result.error);
+        const errorMsg = result.error || "Login failed";
+        setError(errorMsg);
+        toast.error(errorMsg);
+      }
+    } catch (error) {
+      console.error("[LoginPage] Login exception:", error);
+      const errorMsg = error.message || "An unexpected error occurred";
+      setError(errorMsg);
+      toast.error(errorMsg);
     }
   };
 

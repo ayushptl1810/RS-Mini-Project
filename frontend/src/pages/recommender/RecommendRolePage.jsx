@@ -3,11 +3,16 @@ import useRecommendationStore from "../../stores/recommendationStore";
 import useUserStore from "../../stores/userStore";
 import FileUploader from "../../components/common/FileUploader";
 import LoadingSpinner from "../../components/common/LoadingSpinner";
-import { uploadDocumentToCloudinary } from "../../services/cloudinaryService";
+import { readFileAsBase64 } from "../../services/localUploadService";
 
 const RecommendRolePage = () => {
-  const { getRoleRecommendations, roleRecommendations, isLoading, error } =
-    useRecommendationStore();
+  const {
+    getRoleRecommendations,
+    getJobRecommendations,
+    jobRecommendations,
+    isLoading,
+    error,
+  } = useRecommendationStore();
   const { updateResume } = useUserStore();
   const [uploadedFile, setUploadedFile] = useState(null);
   const [uploadingResume, setUploadingResume] = useState(false);
@@ -17,31 +22,32 @@ const RecommendRolePage = () => {
     setUploadingResume(true);
 
     try {
-      // Upload resume to Cloudinary first
-      const uploadResult = await uploadDocumentToCloudinary(file);
-
-      // Save resume URL to user profile
+      // Save resume to profile (base64) for persistence
+      const fileData = await readFileAsBase64(file);
       await updateResume({
-        url: uploadResult.url,
-        filename: uploadResult.filename,
-        size: uploadResult.size,
-        type: uploadResult.type,
-        public_id: uploadResult.public_id,
+        filename: fileData.filename,
+        size: fileData.size,
+        type: fileData.type,
+        base64: fileData.base64,
       });
 
-      // Get recommendations (backend can use Cloudinary URL if needed)
-      const result = await getRoleRecommendations({
-        file,
-        cloudinaryUrl: uploadResult.url,
-        filename: uploadResult.filename,
-      });
+      // Parse resume to extracted skills
+      const parsed = await getRoleRecommendations(file);
+      if (!parsed.success) {
+        console.error("[RecommendRole] parse error:", parsed.error);
+        return;
+      }
+      const skills = parsed.data?.extracted_skills || [];
+      console.log("[RecommendRole] extracted_skills:", skills);
 
-      if (!result.success) {
-        console.error("Error getting recommendations:", result.error);
+      // Call job recommender with parsed skills
+      const jobs = await getJobRecommendations(skills);
+      if (!jobs.success) {
+        console.error("[RecommendRole] job recommender error:", jobs.error);
       }
     } catch (uploadError) {
-      console.error("Error uploading resume:", uploadError);
-      alert(`Failed to upload resume: ${uploadError.message}`);
+      console.error("[RecommendRole] save resume error:", uploadError);
+      alert(`Failed to save resume: ${uploadError.message}`);
     } finally {
       setUploadingResume(false);
     }
@@ -49,7 +55,7 @@ const RecommendRolePage = () => {
 
   const handleClearResults = () => {
     setUploadedFile(null);
-    useRecommendationStore.getState().clearRoleRecommendations();
+    useRecommendationStore.getState().clearAll();
   };
 
   return (
@@ -57,18 +63,17 @@ const RecommendRolePage = () => {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-gray-950 border border-gray-900 rounded-xl shadow-lg p-8">
           <h1 className="text-3xl font-bold mb-4 bg-gradient-to-r from-cyan-400 to-purple-600 bg-clip-text text-transparent">
-            Get Job Role Recommendations
+            Get Job Recommendations From Resume
           </h1>
           <p className="text-gray-400 mb-8">
-            Upload your resume and let our AI analyze your experience to suggest
-            the best job roles for you
+            Upload your resume; we will extract skills and fetch matching jobs
           </p>
 
-          {!uploadedFile && !roleRecommendations && (
+          {!uploadedFile && !jobRecommendations && (
             <FileUploader
               onFileSelect={handleFileSelect}
               accept=".pdf,.doc,.docx"
-              maxSizeMB={5}
+              maxSizeMB={10}
             />
           )}
 
@@ -77,8 +82,8 @@ const RecommendRolePage = () => {
               <LoadingSpinner size="lg" />
               <p className="mt-4 text-gray-400">
                 {uploadingResume
-                  ? "Uploading your resume..."
-                  : "Analyzing your resume..."}
+                  ? "Saving your resume..."
+                  : "Analyzing resume and fetching jobs..."}
               </p>
             </div>
           )}
@@ -89,11 +94,11 @@ const RecommendRolePage = () => {
             </div>
           )}
 
-          {roleRecommendations && !isLoading && (
+          {jobRecommendations && !isLoading && (
             <div className="mt-8">
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-2xl font-semibold text-white">
-                  Recommended Roles
+                  Job Matches
                 </h2>
                 <button
                   onClick={handleClearResults}
@@ -104,32 +109,23 @@ const RecommendRolePage = () => {
               </div>
 
               <div className="space-y-4">
-                {roleRecommendations.recommendations.map((rec, index) => (
+                {jobRecommendations.matches?.map((m, index) => (
                   <div
                     key={index}
                     className="border-l-4 border-cyan-500 bg-cyan-500/10 p-6 rounded-r-lg"
                   >
                     <div className="flex justify-between items-start mb-2">
                       <h3 className="text-xl font-semibold text-white">
-                        {rec.role}
+                        {m.title}
                       </h3>
                       <span className="bg-green-500/20 text-green-400 border border-green-500/30 px-3 py-1 rounded-full text-sm font-semibold">
-                        {Math.round(rec.confidence * 100)}% Match
+                        {Math.round((m.score || 0) * 100)}% Match
                       </span>
                     </div>
-                    <p className="text-gray-300">{rec.description}</p>
+                    <p className="text-gray-400 text-sm">ID: {m.id}</p>
                   </div>
                 ))}
               </div>
-
-              {roleRecommendations.uploadedResume && (
-                <div className="mt-6 p-4 bg-gray-900 rounded-lg border border-gray-800">
-                  <p className="text-sm text-gray-400">
-                    <strong className="text-white">Uploaded:</strong>{" "}
-                    {roleRecommendations.uploadedResume.filename}
-                  </p>
-                </div>
-              )}
             </div>
           )}
         </div>

@@ -1,11 +1,11 @@
 import { useEffect, useState, useRef } from "react";
+import { toast } from "react-toastify";
 import useUserStore from "../stores/userStore";
+import useAuthStore from "../stores/authStore";
 import TechStackBadge from "../components/ui/TechStackBadge";
 import LoadingSpinner from "../components/common/LoadingSpinner";
-import {
-  uploadImageToCloudinary,
-  uploadDocumentToCloudinary,
-} from "../services/cloudinaryService";
+import { readFileAsBase64 } from "../services/localUploadService";
+import { parseResumeWithExternal } from "../services/recommenderApi";
 import {
   PlusIcon,
   TrashIcon,
@@ -26,6 +26,7 @@ const ProfilePage = () => {
   const {
     profile,
     fetchProfile,
+    initializeFromAuth,
     updateTechStack,
     updateProjects,
     updateName,
@@ -34,6 +35,7 @@ const ProfilePage = () => {
     updateResume,
     isLoading,
   } = useUserStore();
+  const { user: authUser } = useAuthStore();
   const [editingStack, setEditingStack] = useState(false);
   const [newTech, setNewTech] = useState("");
   const [newProjectName, setNewProjectName] = useState("");
@@ -49,8 +51,13 @@ const ProfilePage = () => {
   const resumeInputRef = useRef(null);
 
   useEffect(() => {
+    // Initialize profile from auth store first (for immediate display)
+    if (authUser) {
+      initializeFromAuth();
+    }
+    // Then fetch full profile from backend
     fetchProfile();
-  }, []);
+  }, [authUser]);
 
   useEffect(() => {
     if (profile.name) setTempName(profile.name);
@@ -107,8 +114,10 @@ const ProfilePage = () => {
 
     setUploadingAvatar(true);
     try {
-      const result = await uploadImageToCloudinary(file);
-      await updateAvatar(result.url);
+      const fileData = await readFileAsBase64(file);
+      const dataUrl = `data:${fileData.type};base64,${fileData.base64}`;
+      await updateAvatar(dataUrl);
+      toast.success("Avatar updated");
     } catch (error) {
       console.error("Avatar upload error:", error);
       alert(`Failed to upload avatar: ${error.message}`);
@@ -153,14 +162,27 @@ const ProfilePage = () => {
 
     setUploadingResume(true);
     try {
-      const result = await uploadDocumentToCloudinary(file);
+      // Save resume to profile (base64)
+      const fileData = await readFileAsBase64(file);
       await updateResume({
-        url: result.url,
-        filename: result.filename,
-        size: result.size,
-        type: result.type,
-        public_id: result.public_id,
+        filename: fileData.filename,
+        size: fileData.size,
+        type: fileData.type,
+        base64: fileData.base64,
       });
+
+      // Parse resume to update tech stack automatically
+      console.log("[Profile] Parsing resume for skills...");
+      const parsed = await parseResumeWithExternal(file);
+      console.log(
+        "[Profile] Parsed extracted_skills:",
+        parsed?.extracted_skills
+      );
+      if (Array.isArray(parsed?.extracted_skills)) {
+        await updateTechStack(parsed.extracted_skills);
+        console.log("[Profile] Tech stack updated from resume parser");
+      }
+      toast.success("Resume uploaded");
     } catch (error) {
       console.error("Resume upload error:", error);
       alert(`Failed to upload resume: ${error.message}`);
@@ -176,35 +198,59 @@ const ProfilePage = () => {
     resumeInputRef.current?.click();
   };
 
-  const handleAddTech = () => {
-    if (newTech.trim() && !profile.techStack.includes(newTech.trim())) {
-      const updatedStack = [...profile.techStack, newTech.trim()];
-      updateTechStack(updatedStack);
-      setNewTech("");
+  const handleAddTech = async () => {
+    const currentStack = profile.techStack || [];
+    if (newTech.trim() && !currentStack.includes(newTech.trim())) {
+      const updatedStack = [...currentStack, newTech.trim()];
+      const result = await updateTechStack(updatedStack);
+      if (result.success) {
+        toast.success("Technology added successfully!");
+        setNewTech("");
+      } else {
+        toast.error(result.error || "Failed to add technology");
+      }
     }
   };
 
-  const handleRemoveTech = (tech) => {
-    const updatedStack = profile.techStack.filter((t) => t !== tech);
-    updateTechStack(updatedStack);
+  const handleRemoveTech = async (tech) => {
+    const currentStack = profile.techStack || [];
+    const updatedStack = currentStack.filter((t) => t !== tech);
+    const result = await updateTechStack(updatedStack);
+    if (result.success) {
+      toast.success("Technology removed successfully!");
+    } else {
+      toast.error(result.error || "Failed to remove technology");
+    }
   };
 
-  const handleAddProject = () => {
+  const handleAddProject = async () => {
+    const currentProjects = profile.projects || [];
     if (newProjectName.trim() && newProjectDesc.trim()) {
       const updatedProjects = [
-        ...profile.projects,
+        ...currentProjects,
         { name: newProjectName.trim(), description: newProjectDesc.trim() },
       ];
-      updateProjects(updatedProjects);
-      setNewProjectName("");
-      setNewProjectDesc("");
-      setShowAddProject(false);
+      const result = await updateProjects(updatedProjects);
+      if (result.success) {
+        toast.success("Project added successfully!");
+        setNewProjectName("");
+        setNewProjectDesc("");
+        setShowAddProject(false);
+      } else {
+        toast.error(result.error || "Failed to add project");
+      }
     }
   };
 
-  const handleRemoveProject = (index) => {
-    const updatedProjects = profile.projects.filter((_, i) => i !== index);
-    updateProjects(updatedProjects);
+  const handleRemoveProject = async (index) => {
+    const currentProjects = profile.projects || [];
+    const updatedProjects = currentProjects.filter((_, i) => i !== index);
+    const result = await updateProjects(updatedProjects);
+    if (result.success) {
+      toast.success("Project removed successfully!");
+    } else {
+      toast.error(result.error || "Failed to remove project");
+    }
   };
 
   if (isLoading) {
@@ -218,10 +264,14 @@ const ProfilePage = () => {
   const stats = [
     {
       label: "Technologies",
-      value: profile.techStack.length,
+      value: profile.techStack?.length || 0,
       icon: SparklesIcon,
     },
-    { label: "Projects", value: profile.projects.length, icon: BriefcaseIcon },
+    {
+      label: "Projects",
+      value: profile.projects?.length || 0,
+      icon: BriefcaseIcon,
+    },
     {
       label: "Resume",
       value: profile.resumeData ? "Uploaded" : "None",
@@ -406,7 +456,7 @@ const ProfilePage = () => {
             </div>
 
             <div className="flex flex-wrap gap-3 mb-6 min-h-[100px]">
-              {profile.techStack.length > 0 ? (
+              {profile.techStack && profile.techStack.length > 0 ? (
                 profile.techStack.map((tech, index) => (
                   <motion.div
                     key={index}
@@ -523,7 +573,7 @@ const ProfilePage = () => {
             )}
 
             <div className="space-y-4 max-h-[600px] overflow-y-auto pr-2">
-              {profile.projects.length > 0 ? (
+              {profile.projects && profile.projects.length > 0 ? (
                 profile.projects.map((project, index) => (
                   <motion.div
                     key={index}
